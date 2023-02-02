@@ -9,43 +9,39 @@ public class MortgageCalculator {
         final byte MONTHS_IN_YEAR = 12;
         final byte PERCENT = 100;
 
-        double principal;
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Principal ($1k - $1M): ");
-        principal = scanner.nextDouble();
-        while (!(1000 <= principal && principal <= 1000000)) {
-            System.out.println("Enter a number between 1,000 and 1,000,000");
-            System.out.print("Principal ($1k - $1M): ");
-            principal = scanner.nextDouble();
-        }
-
         // always use meaningful and descriptive variable names
-        // use camel casing
-        System.out.print("Annual Interest Rate: ");
-        float annualInterest = scanner.nextFloat();
-        while (!(annualInterest > 0) || !(annualInterest<=30)) {
-            System.out.println("Enter a value greater than 0 and less than or equals to 30");
-            System.out.print("Annual Interest Rate: ");
-            annualInterest = scanner.nextFloat();
-        }
-        float monthlyInterest = annualInterest/MONTHS_IN_YEAR/PERCENT;
+        // use camel casing for methods and variables
+        int principal = (int)readNumber("Principal ($1k - $1M): ", 1000, 1000000);
+        float annualInterest = (float)readNumber("Annual Interest Rates", 1, 30);
+        byte years = (byte)readNumber("Period (Years): ", 1, 30);
 
-        System.out.print("Period (Years): ");
-        byte years = scanner.nextByte();
-        while (!(years > 0) || !(years<=30)) {
-            System.out.println("Enter a value greater than 0 and less than or equals to 30");
-            System.out.print("Period (Years): ");
-            years = scanner.nextByte();
-        }
-        int months = years * 12;
-
-        double mortgage = principal
-                * monthlyInterest * Math.pow(1+monthlyInterest, months)
-                / (Math.pow(1+monthlyInterest, months) -1);
-
+        double mortgage = calculateMortgage(principal, annualInterest, years);
         NumberFormat currency = NumberFormat.getCurrencyInstance();
         String result = currency.format(mortgage);
         System.out.println("Mortgage: " + result);
     }
-}
+
+    public static double calculateMortgage(double principal, float annualInterest, byte years) {
+        final byte MONTHS_IN_YEAR = 12;
+        final byte PERCENT = 100;
+        float monthlyInterest = annualInterest/MONTHS_IN_YEAR/PERCENT;
+        short months = (short)(years * MONTHS_IN_YEAR);
+        double mortgage = principal
+                * monthlyInterest * Math.pow(1+monthlyInterest, months)
+                / (Math.pow(1+monthlyInterest, months) -1);
+        return mortgage;
+    }
+
+    public static double readNumber(String prompt, double min, double max){
+        Scanner scanner = new Scanner(System.in);
+        double value;
+        while (true) {
+            System.out.print("Principal: ");
+            value = scanner.nextFloat();
+            if (value >= min && value <= max)
+                break;
+            System.out.println("Enter a value between " + min + "and " + max);
+        }
+        return value;
+        }
+    }
