@@ -15,6 +15,11 @@ public class PaymentSchedule {
         short months = (short)(years * MONTHS_IN_YEAR);
         float monthlyInterest = annualInterest/MONTHS_IN_YEAR/PERCENT;
 
+        NumberFormat currency = printMonthlyPayment(principal, months, monthlyInterest);
+        printPaymentSchedule(principal, months, monthlyInterest, currency);
+    }
+
+    private static NumberFormat printMonthlyPayment(int principal, short months, float monthlyInterest) {
         double monthlyPayment = calculatePayment(principal, monthlyInterest, months);
         NumberFormat currency = NumberFormat.getCurrencyInstance();
         String payment = currency.format(monthlyPayment);
@@ -22,6 +27,10 @@ public class PaymentSchedule {
         System.out.println("MORTGAGE");
         System.out.println("--------");
         System.out.println("Monthly Payments: " + payment);
+        return currency;
+    }
+
+    private static void printPaymentSchedule(int principal, short months, float monthlyInterest, NumberFormat currency) {
         System.out.println();
         System.out.println("PAYMENT SCHEDULE");
         System.out.println("----------------");
