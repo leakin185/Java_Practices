@@ -5,14 +5,10 @@ import java.util.Scanner;
 
 public class MortgageCalculator {
     public static void main(String[] args) {
-        // avoid magic numbers
-        final byte MONTHS_IN_YEAR = 12;
-        final byte PERCENT = 100;
-
         // always use meaningful and descriptive variable names
         // use camel casing for methods and variables
         int principal = (int)readNumber("Principal ($1k - $1M): ", 1000, 1000000);
-        float annualInterest = (float)readNumber("Annual Interest Rates", 1, 30);
+        float annualInterest = (float)readNumber("Annual Interest Rates :", 1, 30);
         byte years = (byte)readNumber("Period (Years): ", 1, 30);
 
         double mortgage = calculateMortgage(principal, annualInterest, years);
@@ -22,6 +18,7 @@ public class MortgageCalculator {
     }
 
     public static double calculateMortgage(double principal, float annualInterest, byte years) {
+        // avoid magic numbers
         final byte MONTHS_IN_YEAR = 12;
         final byte PERCENT = 100;
         float monthlyInterest = annualInterest/MONTHS_IN_YEAR/PERCENT;
@@ -36,7 +33,7 @@ public class MortgageCalculator {
         Scanner scanner = new Scanner(System.in);
         double value;
         while (true) {
-            System.out.print("Principal: ");
+            System.out.print(prompt);
             value = scanner.nextFloat();
             if (value >= min && value <= max)
                 break;
