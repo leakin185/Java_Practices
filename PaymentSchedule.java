@@ -11,22 +11,13 @@ public class PaymentSchedule {
         float annualInterest = (float) Console.readNumber("Annual Interest Rates :", 1, 30);
         byte years = (byte) Console.readNumber("Period (Years): ", 1, 30);
 
-        short months = (short)(years * MONTHS_IN_YEAR);
+        byte months = (byte)(years * MONTHS_IN_YEAR);
         float monthlyInterest = annualInterest/MONTHS_IN_YEAR/PERCENT;
 
-        NumberFormat currency = MortgageReport.printMonthlyPayment(principal, months, monthlyInterest);
-        MortgageReport.printPaymentSchedule(principal, months, monthlyInterest, currency);
+        var calculator = new MortgageCalculatorHelper(principal, monthlyInterest, months);
+        var report = new MortgageReport(calculator);
+        report.printMonthlyPayment();
+        report.printPaymentSchedule();
     }
 
-    public static double calculatePayment(double principal, float monthlyInterest, short months) {
-        double monthlyPayment = principal*(monthlyInterest*Math.pow((1+monthlyInterest), months))
-                /(Math.pow((1+monthlyInterest), months)-1);
-        return monthlyPayment;
-    }
-
-    public static double calculateLoanBalance(double principal, float monthlyInterest, short months, int paidMonths) {
-        double balance = principal*(Math.pow((1+monthlyInterest), months)-Math.pow((1+monthlyInterest), paidMonths))
-                /(Math.pow((1+monthlyInterest), months)-1);
-        return balance;
-    }
 }
