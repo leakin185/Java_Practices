@@ -7,10 +7,7 @@ public class PaymentSchedule {
         float annualInterest = (float) Console.readNumber("Annual Interest Rates :", 1, 30);
         byte years = (byte) Console.readNumber("Period (Years): ", 1, 30);
 
-        byte months = (byte)(years * MortgageCalculatorHelper.MONTHS_IN_YEAR);
-        float monthlyInterest = annualInterest/ MortgageCalculatorHelper.MONTHS_IN_YEAR/ MortgageCalculatorHelper.PERCENT;
-
-        var calculator = new MortgageCalculatorHelper(principal, monthlyInterest, months);
+        var calculator = new MortgageCalculatorHelper(principal, annualInterest, years);
         var report = new MortgageReport(calculator);
         report.printMonthlyPayment();
         report.printPaymentSchedule();
