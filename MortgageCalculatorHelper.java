@@ -1,6 +1,8 @@
 package com.leajava;
 
 public class MortgageCalculatorHelper {
+    public final static byte MONTHS_IN_YEAR = 12;
+    public final static byte PERCENT = 100;
     private int principal;
     private float monthlyInterest;
     private byte months;
@@ -23,7 +25,13 @@ public class MortgageCalculatorHelper {
         return balance;
     }
 
-    public short getMonths() {
-        return months;
+    public double[] getRemainingBalances() {
+        double[] balances = new double[months];
+        for (int i = 1; i <= months; i++) {
+            balances[i-1] = calculateLoanBalance(i);
+        }
+        return balances;
     }
+
+
 }
